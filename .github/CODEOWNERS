@@ -1,0 +1,24 @@
+# CODEOWNERS
+# Each line assigns ownership of a path to one or more GitHub users.
+# The last matching pattern takes precedence.
+# Replace @placeholder usernames with actual GitHub usernames when available.
+
+# Cybersecurity team owns security pipeline, auth, and infrastructure config
+/.github/                   @fitsumbelay
+/auth/                      @fitsumbelay
+SECURITY.md                 @fitsumbelay
+*.yaml                      @fitsumbelay
+*.env.example               @fitsumbelay
+
+# Full stack team owns backend and mobile app
+/backend/                   @fullstack-student
+/mobile/                    @fullstack-student
+
+# AI/Data team owns AI and data processing
+/ai/                        @ai-student
+
+# Robotics team owns robot firmware and control logic
+/robotics/                  @robotics-student
+
+# Shared docs - all teams review
+/docs/                      @fitsumbelay @fullstack-student @ai-student @robotics-student
