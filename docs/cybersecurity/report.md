@@ -80,32 +80,3 @@ Over-the-air firmware updates are one of the highest risk operations in any IoT 
 
 A rollback mechanism ensures the robot can revert to the previous verified version if an update causes unexpected behaviour. The firmware_version field in the Mowers table allows the backend to track each robot's version and flag devices that have not received critical updates.
 
----
-
-## Chapter 4: Tools for Secure Development
-
-| Tool | Category | Type | Purpose |
-|---|---|---|---|
-| Gitleaks | Secret Scanning | Open Source | Scans git history and pull requests for hardcoded secrets and API keys |
-| GitHub Dependabot | SCA | Free/GitHub Native | Monitors Python and JavaScript dependencies for known CVEs and raises automated fix PRs |
-| Bandit | Static Analysis | Open Source | Analyzes Python source code for common security vulnerabilities and anti-patterns |
-| Safety | SCA | Open Source | Checks Python dependencies against a database of known vulnerabilities at CI time |
-| GitHub Branch Protection + CODEOWNERS | Access Control | GitHub Native | Enforces pull request reviews, blocks direct commits, and requires cybersecurity approval on sensitive files |
-| HTTPS / TLS | Transport Security | Protocol | Encrypts all communication between the mobile app, backend, and external APIs |
-| Environment Secrets Management | Secrets Management | GitHub Native | Stores API keys and credentials as encrypted GitHub Actions secrets, never in source code |
-
----
-
-## Chapter 5: Minimum Security Controls
-
-The following controls are considered the minimum acceptable security baseline for this system. Removing any one of them would leave a critical gap in the security posture.
-
-- **Secret scanning must run on every pull request.** The system integrates with multiple external APIs and services. A single accidentally committed credential could expose the entire system. Gitleaks enforces this automatically and blocks merges when secrets are detected.
-
-- **All API endpoints must authenticate and authorize every request.** Given that the backend issues commands to a physical robot, an unauthenticated endpoint is not just a data risk but a physical safety risk. No endpoint is exempt from this requirement.
-
-- **Firmware updates must be cryptographically signed and verified.** An unsigned OTA update channel is an open door for an attacker to take full control of the robot. Signature verification on the device is non-negotiable.
-
-- **Environment separation must be maintained between development and production.** Developers must never have direct access to the production database or the live robot. All production deployments go through the CI/CD pipeline with appropriate approval gates.
-
-- **Dependencies must be scanned for known vulnerabilities before every deployment.** Third-party libraries are a common attack vector. Automated SCA checks ensure the team is not unknowingly shipping software with publicly disclosed exploits.
